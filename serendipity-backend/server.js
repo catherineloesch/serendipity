@@ -1,12 +1,30 @@
-//NPM packages
+//Require necessary NPM packages
 const express = require('express');
 const mongoose = require('mongoose')
+
+//Require Route Files
+const indexRouter = require('./routes/index')
+
+//Instantiate Express Application Object
+const app = express();
+
+//Define PORT for API to run on
+const port = process.env.PORT || 5000
+
+//Routes: mount imported Routers
+app.use(indexRouter)
+
+//Start server and listen for requests on the given port
+app.listen(port, () => console.log(`Serendipidity Server is listening on port ${port}...`));
+
+
+
+
 
 //Models
 //const Record = require('./record.js')
 
-//Define PORT for API to run on
-const port = process.env.PORT || 5000
+
 
 // const mongoURI = 'mongodb://localhost:27017/<db name>'
 // const db = mongoose.connection;
@@ -18,13 +36,8 @@ const port = process.env.PORT || 5000
     // db.on('connected', () => console.log(`MongoDB Connected: ${mongoURI}`))
     // db.on('disconnected', () => console.log(`MongoDB Disconnected`))
 
-//Instantiate Express Application Object
-const app = express();
+
 
 //Middleware
 app.use(express.json())
 
-//Start server and listen for requests on the given port
-app.listen(port, () => console.log(`Serendipidity Server is listening on port ${port}...`));
-
-//routes
