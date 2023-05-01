@@ -22,15 +22,19 @@ const app = express();
 //Define PORT for API to run on
 const port = process.env.PORT || 5000
 
+//Middleware
+//Add 'bodyParser' middleware which will parse JSON requests into a JavaScript Object
+//before it reaches the route files
+//method '.use' sets up middleware for Express apps
+app.use(express.json)
+
+
 //Routes: mount imported Routers
 app.use(indexRouter)
 app.use(articlesRouter)
 
 //Start server and listen for requests on the given port
 app.listen(port, () => console.log(`Serendipidity Server is listening on port ${port}...`));
-
-
-
 
 
 //Models
@@ -47,9 +51,3 @@ app.listen(port, () => console.log(`Serendipidity Server is listening on port ${
     // db.on('error', (error) => console.log(`ERROR: ${error.message}`))
     // db.on('connected', () => console.log(`MongoDB Connected: ${mongoURI}`))
     // db.on('disconnected', () => console.log(`MongoDB Disconnected`))
-
-
-
-//Middleware
-app.use(express.json())
-
