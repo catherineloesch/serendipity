@@ -58,9 +58,7 @@ router.get('/api/articles/:id', (req, res) => {
     .then(article => {
         if (article) {
             res.json({article: article})
-        } else {
-            
-            console.log('not found...')
+        } else {            
             res.status(404).json({
                 error: {
                     name: 'DocumentNotFound',
@@ -92,7 +90,29 @@ router.get('/api/articles/:id', (req, res) => {
  * Description: Update an Article by Article ID
  */
 
+//UPDATE route
 
+router.put('/api/articles/:id', (req, res) => {
+    Article.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .then(article => {
+        if (article) {
+            res.json({article: article})
+        } else {
+            res.status(404).json({
+                error: {
+                    name: 'DocumentNotFound',
+                    message: "The provided ID doesn't match any documents"
+                }
+            })
+
+        }
+        
+    })
+    .catch((error) => {
+        console.log(error)
+        res.status(500).json({error: error})
+    })
+})
 
 
 //Export the Router so we can use it in the `server.js` file
