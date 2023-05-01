@@ -1,5 +1,5 @@
-//Require necessary NPM packages
-const express = require('express');
+//Require necessary npm packages
+const express = require('express')
 const mongoose = require('mongoose')
 const db = mongoose.connection
 
@@ -8,46 +8,38 @@ const dbConfig = require('./config/db')
 
 //Establish Database Connection
 mongoose.connect(dbConfig)
-    db.on('error', (error) => console.log(`ERROR: ${error.message}`))
-    db.on('connected', () => console.log(`MongoDB Connected: ${dbConfig}`))
-    db.on('disconnected', () => console.log(`MongoDB Disconnected`))
+db.on('error', (error) => console.log(`ERROR: ${error.message}`))
+db.on('connected', () => console.log(`MongoDB Connected: ${dbConfig}`))
+db.on('disconnected', () => console.log('MongoDB Disconnected'))
 
 //Require Route Files
 const indexRouter = require('./routes/index')
 const articlesRouter = require('./routes/articles')
 
 //Instantiate Express Application Object
-const app = express();
+const app = express()
 
-//Define PORT for API to run on
-const port = process.env.PORT || 5000
+//Define PORT for the API to run on
+const port = process.env.PORT || 5000; //5000= fallback option, adds flexibility
 
-//Middleware
-//Add 'bodyParser' middleware which will parse JSON requests into a JavaScript Object
-//before it reaches the route files
-//method '.use' sets up middleware for Express apps
-app.use(express.json)
+/**
+ * Middleware
+ * Add `bodyParser` middleware which will parse JSON
+ * requests into JS  object before it reaches the route files
+ * the method `.use`sets up middleware for Express apps.
+ */
+
+app.use(express.json())
 
 
-//Routes: mount imported Routers
+/**
+ * Routes
+ * 
+ * Mount the imported Routers
+ */
+
 app.use(indexRouter)
 app.use(articlesRouter)
 
-//Start server and listen for requests on the given port
-app.listen(port, () => console.log(`Serendipidity Server is listening on port ${port}...`));
-
-
-//Models
-//const Record = require('./record.js')
-
-
-
-// const mongoURI = 'mongodb://localhost:27017/<db name>'
-// const db = mongoose.connection;
-
-//connect to mongoDB
-// mongoose.connect(mongoURI)
-//     .then(() => console.log('MongoDB Connection Established!'))
-    // db.on('error', (error) => console.log(`ERROR: ${error.message}`))
-    // db.on('connected', () => console.log(`MongoDB Connected: ${mongoURI}`))
-    // db.on('disconnected', () => console.log(`MongoDB Disconnected`))
+//Start the server and listen for requests on the given port
+app.listen(port, () => console.log(`Serendipity is listening on port ${port}`))

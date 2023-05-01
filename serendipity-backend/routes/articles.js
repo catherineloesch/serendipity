@@ -1,13 +1,11 @@
-//NPM packages
+//Require necessary npm packages
 const express = require('express')
 
-//Require Mongoose Model for Article
-
+// Require Mongoose Model for Article
 const Article = require('../models/article')
 
-//Instantiate a Router (mini app that handles routes)
+//Instantiate a Router (a mini app that only handles routes)
 const router = express.Router()
-
 
 /**
  * Action:      INDEX
@@ -18,10 +16,34 @@ const router = express.Router()
 
 router.get('/api/articles', (req, res) => {
     Article.find()
-    .then(allArticles => {
+    //Return all Articles as an array
+    .then((allArticles) => {
         res.json({articles: allArticles})
     })
-    .catch(error => res.status(500).json({error: error}))
+    //Catch any errors that might occur
+    .catch(error => {
+        res.status(500).json({error: error})
+    })
+})
+
+/**
+ * Action:      CREATE
+ * Method:      POST
+ * URI:         /api/articles
+ * Description: Create a new Article
+ */
+
+router.post('/api/articles', (req, res) => {
+    Article.create(req.body.article)
+    // On a successfull `create` action, respond with 201
+    //HTTP status and the content of the new Article
+    .then((newArticle) => {
+        res.status(201).json({article: newArticle})
+    })
+    // Catch any errors that might occur
+    .catch((error) => {
+        res.status(500).json({error: error})
+    })
 })
 
 /**
@@ -45,14 +67,8 @@ router.get('/api/articles', (req, res) => {
  * Description: Update an Article by Article ID
  */
 
-/**
- * Action:      CREATE
- * Method:      POST
- * URI:         /api/articles
- * Description: Create a new Article
- */
 
 
 
-//Export Router so we can use it in server.js file
+//Export the Router so we can use it in the `server.js` file
 module.exports = router
