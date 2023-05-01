@@ -14,6 +14,7 @@ mongoose.connect(dbConfig)
 
 //Require Route Files
 const indexRouter = require('./routes/index')
+const articlesRouter = require('./routes/articles')
 
 //Instantiate Express Application Object
 const app = express();
@@ -23,6 +24,7 @@ const port = process.env.PORT || 5000
 
 //Routes: mount imported Routers
 app.use(indexRouter)
+app.use(articlesRouter)
 
 //Start server and listen for requests on the given port
 app.listen(port, () => console.log(`Serendipidity Server is listening on port ${port}...`));
