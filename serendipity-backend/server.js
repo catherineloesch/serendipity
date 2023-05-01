@@ -1,5 +1,6 @@
 //Require necessary npm packages
 const express = require('express')
+const cors = require('cors')
 const mongoose = require('mongoose')
 const db = mongoose.connection
 
@@ -30,6 +31,11 @@ const port = process.env.PORT || 5000; //5000= fallback option, adds flexibility
  */
 
 app.use(express.json())
+
+//set CORS headers on response from this API using the 'cors' npm package
+app.use(cors({
+    origin: 'http://localhost:3000'
+}))
 
 
 /**
