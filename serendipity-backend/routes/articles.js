@@ -83,14 +83,34 @@ router.get('/api/articles/:id', (req, res) => {
  * Description: Delete an Article by Article ID
  */
 
+router.delete('/api/articles/:id', (req, res) => {
+    Article.findByIdAndRemove(req.params.id)
+    .then(article => {
+        if (article) {
+            res.json({article: article})
+        } else {            
+            res.status(404).json({
+                error: {
+                    name: 'DocumentNotFound',
+                    message: "The provided ID doesn't match any documents"
+                }
+            })
+
+        }
+        
+    })
+    .catch((error) => {
+        console.log(error)
+        res.status(500).json({error: error})
+    })
+})
+
 /**
  * Action:      UPDATE
  * Method:      PUT/PATCH
  * URI:         /api/articles/644ef2f60bf76b599d86f44d
  * Description: Update an Article by Article ID
  */
-
-//UPDATE route
 
 router.put('/api/articles/:id', (req, res) => {
     Article.findByIdAndUpdate(req.params.id, req.body, {new: true})
