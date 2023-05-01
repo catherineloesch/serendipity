@@ -53,6 +53,31 @@ router.post('/api/articles', (req, res) => {
  * Description: Get an Article by Article ID
  */
 
+router.get('/api/articles/:id', (req, res) => {
+    Article.findById(req.params.id)
+    .then(article => {
+        if (article) {
+            res.json({article: article})
+        } else {
+            
+            console.log('not found...')
+            res.status(404).json({
+                error: {
+                    name: 'DocumentNotFound',
+                    message: "The provided ID doesn't match any documents"
+                }
+            })
+
+        }
+        
+    })
+    .catch((error) => {
+        console.log(error)
+        res.status(500).json({error: error})
+    })
+})
+
+
 /**
  * Action:      DESTROY
  * Method:      DELETE
